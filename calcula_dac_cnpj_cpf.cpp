@@ -2,31 +2,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <chrono>
 #include <thread>
 #include <string>
 #include <WIndows.h>
 
 
 using namespace std;
-using namespace chrono;
+
 
 //variáveis globais
 char leitor[17];
 double tp_total_proc;
 double tp_abertura_arquivo;
 double tp_leitura_arquivo;
-double tp_escreve_console;
 double tp_calcula_cpf_cnpj;
-double tp_orquestrador;
 double tp_total;
+double tp_escreve_console;
+double tp_orquestrador;
 int id_cpf = 0;
 int id_cnpj = 0;
 int dados_no_arquivo = 0;
 int qtd_cpf = 0;
 int qtd_cnpj = 0;
-int cpfs [100][12];
-int cnpjs [100][17];
+int cpfs [1000][12];
+int cnpjs [1000][17];
 
 clock_t tick[10];     // ticks para calculo de tempo de execução utilizado pelas threads e funções
 
@@ -60,8 +59,8 @@ void le_arquivo()
 {
     printf("Lendo o arquivo... \n");
 
-    //For para leitura das linhas da base ( limitado em 100 linhas ) para ler mais linhas basta colocar outro numero
-    for(int i=0; i < 100; i++)
+    //For para leitura das linhas da base ( limitado em 1000 linhas ) para ler mais linhas basta colocar outro numero
+    for(int i=0; i < 1000; i++)
     {
         fscanf(base,"%s", leitor);		//Lendo a linha
 
@@ -97,26 +96,12 @@ void le_arquivo()
 }
 
 
-void escreve_no_arquivo(char* cfps)
-{
-    for(int i = 0; i<100; i++)
-    {
-        for(int j = 0; j<12; j++)
-        {
-            base_output = fopen("base_output.txt", "w");
-            fprintf(base_output, "%d", cpfs);
-            fclose(base_output);
-        }
-
-    }
-}
-
 
 // função onde é implementada a chamada das funções com as threads.
 void calcula_cpf_cnpj()
 {
 
-	for(int i = 0; i<id_cpf;i++)
+	for(int i = 0; i < id_cpf; i++)
     {
 
 		std::thread calculo_cpf(calcula_digito_cpf, i); // abertura da thread passando a função calcula_digito_cpf
@@ -245,9 +230,8 @@ int main()
 	calcula_cpf_cnpj();
     tick[5] = clock();
 
-    tick[6] = clock();
     orquestrador();
-    tick[7] = clock();
+
 
 
 	return 0;
