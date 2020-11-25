@@ -24,8 +24,8 @@ int id_cnpj = 0;
 int dados_no_arquivo = 0;
 int qtd_cpf = 0;
 int qtd_cnpj = 0;
-int cpfs [1000][12];
-int cnpjs [1000][17];
+int cpfs [10000][12];
+int cnpjs [10000][17];
 
 clock_t tick[10];     // ticks para calculo de tempo de execução utilizado pelas threads e funções
 
@@ -60,7 +60,7 @@ void le_arquivo()
     printf("Lendo o arquivo... \n");
 
     //For para leitura das linhas da base ( limitado em 1000 linhas ) para ler mais linhas basta colocar outro numero
-    for(int i=0; i < 1000; i++)
+    for(int i=0; i < 10000; i++)
     {
         fscanf(base,"%s", leitor);		//Lendo a linha
 
